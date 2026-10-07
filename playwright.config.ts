@@ -8,10 +8,14 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
   use: {
-    headless: false, // Força a exibição da janela do navegador
+    // Fica em modo headless (sem janela) no GitHub Actions e com janela no seu PC
+    headless: process.env.CI ? true : false,
+    
     launchOptions: {
-      slowMo: 2000, // Define a pausa automática de 2 segundos entre cada ação
+      // Remove a pausa lenta no GitHub Actions para os testes correrem rápido, mantendo 2s no seu PC
+      slowMo: process.env.CI ? 0 : 2000,
     },
+    
     trace: 'on-first-retry',
   },
 
